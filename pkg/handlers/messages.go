@@ -13,52 +13,47 @@ func (h handler) CreateMessage(context *gin.Context) {
 	var newMessage models.Message
 
 	if err := context.BindJSON(&newMessage); err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
 	result := h.DB.Create(&newMessage)
 
 	if result.Error != nil {
-		log.Fatalln(result.Error)
+		log.Println(result.Error)
+		context.JSON(http.StatusBadRequest, gin.H{"message": result.Error.Error()})
+		return
 	}
 
-	context.IndentedJSON(http.StatusCreated, gin.H{"message": "Ok"})
+	context.JSON(http.StatusCreated, gin.H{"message": "Ok"})
 	// mocks.Messages = append(mocks.Messages, newMessage)
-	// context.IndentedJSON(http.StatusCreated, mocks.Messages)
+	// context.JSON(http.StatusCreated, mocks.Messages)
 }
 
 func (h handler) GetMessages(context *gin.Context) {
 
 	userId := context.Param("userid")
 
-	rows, err := h.DB.Model(&models.Message{}).Where("user_to = ?", userId).Rows()
-
-	if err != nil {
-		log.Fatalln(err)
-		context.IndentedJSON(http.StatusNotFound, gin.H{"message": err})
+	if userId == "" {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "User ID is not valid"})
+		return
 	}
-
-	defer rows.Close()
 
 	var messages []models.Message
-	var message models.Message
 
-	for rows.Next() {
-		h.DB.ScanRows(rows, &message)
-		messages = append(messages, message)
+	result := h.DB.Where("user_to = ?", userId).Find(&messages)
+
+	if result.Error != nil {
+		log.Println(result.Error)
+		context.JSON(http.StatusNotFound, gin.H{"message": result.Error.Error()})
+		return
 	}
 
-	// for _, message := range mocks.Messages {
-	// 	if fmt.Sprint(message.UserTo) == userId {
-	// 		messages = append(messages, message)
-	// 	}
-	// }
-
 	if len(messages) > 0 {
-		context.IndentedJSON(http.StatusOK, messages)
+		context.JSON(http.StatusOK, messages)
 	} else {
-		context.IndentedJSON(http.StatusNotFound, gin.H{"message": "Messages not found"})
+		context.JSON(http.StatusNotFound, gin.H{"message": "Messages not found"})
 	}
 
 }

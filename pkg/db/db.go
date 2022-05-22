@@ -1,15 +1,19 @@
 package db
 
 import (
+	"fmt"
 	"log"
 
+	"github.com/evsharonov/go-gin-gorm-crud/pkg/config"
 	"github.com/evsharonov/go-gin-gorm-crud/pkg/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func Init() *gorm.DB {
-	dsn := "host=localhost user=postgres password=0000 dbname=GoCRUD port=5432 sslmode=disable"
+	config := config.GetConfig().DB
+
+	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=%v", config.Host, config.Username, config.Password, config.Name, config.Port, config.Sslmode)
 	gormDB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {

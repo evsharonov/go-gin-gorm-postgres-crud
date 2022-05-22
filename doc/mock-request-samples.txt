@@ -8,3 +8,5 @@ curl http://localhost:8080/messages/2
 curl http://localhost:8080/messages/create --include --header "Content-Type: application/json" --request "POST" --data '{"UserFrom": 3, "UserTo": 2, "Message": "One To Three Four Five"}'
 curl http://localhost:8080/messages/create --include --header "Content-Type: application/json" --request "POST" --data '{"UserFrom": 1, "UserTo": 3, "Message": "Big black Bug"}'
 curl http://localhost:8080/messages/create --include --header "Content-Type: application/json" --request "POST" --data '{"UserFrom": 3, "UserTo": 2, "Message": "Lets go mess around"}'
+
+How to check --data consistency to DB table structure

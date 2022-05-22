@@ -10,33 +10,26 @@ import (
 
 func (h handler) GetAllUsers(context *gin.Context) {
 
-	rows, err := h.DB.Model(&models.User{}).Rows()
-
-	if err != nil {
-		log.Fatalln(err)
-		context.IndentedJSON(http.StatusNotFound, gin.H{"message": err})
-	}
-
-	defer rows.Close()
-
 	var users []models.User
-	var user models.User
 
-	for rows.Next() {
-		h.DB.ScanRows(rows, &user)
-		users = append(users, user)
+	result := h.DB.Find(&users)
+
+	if result.Error != nil {
+		log.Println(result.Error)
+		context.JSON(http.StatusNotFound, gin.H{"message": result.Error.Error()})
+		return
 	}
 
 	if len(users) != 0 {
-		context.IndentedJSON(http.StatusOK, users)
+		context.JSON(http.StatusOK, users)
 	} else {
-		context.IndentedJSON(http.StatusNotFound, gin.H{"message": "Users not found"})
+		context.JSON(http.StatusNotFound, gin.H{"message": "Users not found"})
 	}
 
 	// for _, user := range mocks.Users {
 	// 	fmt.Println(user)
 	// }
-	// context.IndentedJSON(http.StatusOK, mocks.Users)
+	// context.JSON(http.StatusOK, mocks.Users)
 
 }
 
@@ -48,19 +41,25 @@ func (h handler) GetUserById(context *gin.Context) {
 
 	result := h.DB.First(&user, id)
 
+	if result.Error != nil {
+		log.Println(result.Error)
+		context.JSON(http.StatusNotFound, gin.H{"message": result.Error.Error()})
+		return
+	}
+
 	if result.RowsAffected != 0 {
-		context.IndentedJSON(http.StatusOK, user)
+		context.JSON(http.StatusOK, user)
 	} else {
-		context.IndentedJSON(http.StatusNotFound, gin.H{"message": result.Error})
+		context.JSON(http.StatusNotFound, gin.H{"message": "User not found"})
 	}
 
 	// for _, user := range mocks.Users {
 	// 	if fmt.Sprint(user.ID) == id {
-	// 		context.IndentedJSON(http.StatusOK, user)
+	// 		context.JSON(http.StatusOK, user)
 	// 		return
 	// 	}
 	// }
-	//context.IndentedJSON(http.StatusNotFound, gin.H{"message": "User not found"})
+	//context.JSON(http.StatusNotFound, gin.H{"message": "User not found"})
 
 }
 
@@ -69,16 +68,20 @@ func (h handler) CreateUser(context *gin.Context) {
 	var newUser models.User
 
 	if err := context.BindJSON(&newUser); err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
 	}
 
 	result := h.DB.Create(&newUser)
 
 	if result.Error != nil {
-		log.Fatalln(result.Error)
+		log.Println(result.Error)
+		context.JSON(http.StatusBadRequest, gin.H{"message": result.Error.Error()})
+		return
 	}
 
-	context.IndentedJSON(http.StatusCreated, gin.H{"message": "Ok"})
+	context.JSON(http.StatusCreated, gin.H{"message": "Ok"})
 	//mocks.Users = append(mocks.Users, newUser)
 
 }
