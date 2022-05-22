@@ -10,25 +10,24 @@ import (
 
 func (h handler) CreateMessage(context *gin.Context) {
 
-	var newMessage models.Message
+	newMessage := &models.Message{}
 
-	if err := context.BindJSON(&newMessage); err != nil {
+	if err := context.BindJSON(newMessage); err != nil {
 		log.Println(err)
 		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
-	result := h.DB.Create(&newMessage)
+	err := newMessage.CreateMessage(h.DB)
 
-	if result.Error != nil {
-		log.Println(result.Error)
-		context.JSON(http.StatusBadRequest, gin.H{"message": result.Error.Error()})
+	if err != nil {
+		log.Println(err)
+		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
 	context.JSON(http.StatusCreated, gin.H{"message": "Ok"})
-	// mocks.Messages = append(mocks.Messages, newMessage)
-	// context.JSON(http.StatusCreated, mocks.Messages)
+
 }
 
 func (h handler) GetMessages(context *gin.Context) {
@@ -40,20 +39,18 @@ func (h handler) GetMessages(context *gin.Context) {
 		return
 	}
 
-	var messages []models.Message
+	messages := &models.Message{}
 
-	result := h.DB.Where("user_to = ?", userId).Find(&messages)
+	messagesReceived, err := messages.GetMessages(h.DB, &userId)
 
-	if result.Error != nil {
-		log.Println(result.Error)
-		context.JSON(http.StatusNotFound, gin.H{"message": result.Error.Error()})
+	if err != nil {
+		context.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
 		return
 	}
 
-	if len(messages) > 0 {
-		context.JSON(http.StatusOK, messages)
+	if len(*messagesReceived) > 0 {
+		context.JSON(http.StatusOK, *messagesReceived)
 	} else {
 		context.JSON(http.StatusNotFound, gin.H{"message": "Messages not found"})
 	}
-
 }
