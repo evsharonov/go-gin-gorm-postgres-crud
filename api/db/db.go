@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/evsharonov/go-gin-gorm-crud/pkg/config"
-	"github.com/evsharonov/go-gin-gorm-crud/pkg/models"
+	"github.com/evsharonov/go-gin-gorm-crud/api/config"
+	"github.com/evsharonov/go-gin-gorm-crud/api/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func Init() *gorm.DB {
-	config := config.GetConfig().DB
+	config := config.GetDBConfig().DB
 
 	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=%v", config.Host, config.Username, config.Password, config.Name, config.Port, config.Sslmode)
 	gormDB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

@@ -1,12 +1,14 @@
-curl http://localhost:8080/users
-curl http://localhost:8080/users/2
-curl http://localhost:8080/users/create --include --header "Content-Type: application/json" --request "POST" --data '{"Name": "Cermit Frog"}'
-curl http://localhost:8080/users/create --include --header "Content-Type: application/json" --request "POST" --data '{"Name": "Peter Pen"}'
-curl http://localhost:8080/users/create --include --header "Content-Type: application/json" --request "POST" --data '{"Name": "Capt Hook"}'
+curl http://localhost:8080/login --include --header "Content-Type: application/json" --request "POST" --data '{"Email": "evsharonov@gmail.com", "Password": "qwerty"}'
+curl http://localhost:8080/users --include --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZXZzaGFyb25vdkBnbWFpbC5jb20iLCJ1c2VyIjp0cnVlLCJleHAiOjE2NTM1NDgyNDcsImlhdCI6MTY1MzM3NTQ0NywiaXNzIjoiU2VsZXN0YSJ9.2TSqH18e0wF-x_r1lziWECfaQWGa62MblOG9nFiBUVE"
 
-curl http://localhost:8080/messages/2
-curl http://localhost:8080/messages/create --include --header "Content-Type: application/json" --request "POST" --data '{"UserFrom": 3, "UserTo": 2, "Message": "One To Three Four Five"}'
-curl http://localhost:8080/messages/create --include --header "Content-Type: application/json" --request "POST" --data '{"UserFrom": 1, "UserTo": 3, "Message": "Big black Bug"}'
-curl http://localhost:8080/messages/create --include --header "Content-Type: application/json" --request "POST" --data '{"UserFrom": 3, "UserTo": 2, "Message": "Lets go mess around"}'
+curl http://localhost:8080/users/2 --include --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZXZzaGFyb25vdkBnbWFpbC5jb20iLCJ1c2VyIjp0cnVlLCJleHAiOjE2NTM1NDgyNDcsImlhdCI6MTY1MzM3NTQ0NywiaXNzIjoiU2VsZXN0YSJ9.2TSqH18e0wF-x_r1lziWECfaQWGa62MblOG9nFiBUVE"
+curl http://localhost:8080/users/create --include --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZXZzaGFyb25vdkBnbWFpbC5jb20iLCJ1c2VyIjp0cnVlLCJleHAiOjE2NTM1NDgyNDcsImlhdCI6MTY1MzM3NTQ0NywiaXNzIjoiU2VsZXN0YSJ9.2TSqH18e0wF-x_r1lziWECfaQWGa62MblOG9nFiBUVE" --request "POST" --data '{"Name": "Cermit Frog"}'
+curl http://localhost:8080/users/create --include --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZXZzaGFyb25vdkBnbWFpbC5jb20iLCJ1c2VyIjp0cnVlLCJleHAiOjE2NTM1NDgyNDcsImlhdCI6MTY1MzM3NTQ0NywiaXNzIjoiU2VsZXN0YSJ9.2TSqH18e0wF-x_r1lziWECfaQWGa62MblOG9nFiBUVE" --request "POST" --data '{"Name": "Peter Pen"}'
+curl http://localhost:8080/users/create --include --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZXZzaGFyb25vdkBnbWFpbC5jb20iLCJ1c2VyIjp0cnVlLCJleHAiOjE2NTM1NDgyNDcsImlhdCI6MTY1MzM3NTQ0NywiaXNzIjoiU2VsZXN0YSJ9.2TSqH18e0wF-x_r1lziWECfaQWGa62MblOG9nFiBUVE" --request "POST" --data '{"Name": "Capt Hook"}'
+
+curl http://localhost:8080/messages/2 --include --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZXZzaGFyb25vdkBnbWFpbC5jb20iLCJ1c2VyIjp0cnVlLCJleHAiOjE2NTM1NDgyNDcsImlhdCI6MTY1MzM3NTQ0NywiaXNzIjoiU2VsZXN0YSJ9.2TSqH18e0wF-x_r1lziWECfaQWGa62MblOG9nFiBUVE"
+curl http://localhost:8080/messages/create --include --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZXZzaGFyb25vdkBnbWFpbC5jb20iLCJ1c2VyIjp0cnVlLCJleHAiOjE2NTM1NDgyNDcsImlhdCI6MTY1MzM3NTQ0NywiaXNzIjoiU2VsZXN0YSJ9.2TSqH18e0wF-x_r1lziWECfaQWGa62MblOG9nFiBUVE" --request "POST" --data '{"UserFrom": 3, "UserTo": 2, "Message": "One To Three Four Five"}'
+curl http://localhost:8080/messages/create --include --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZXZzaGFyb25vdkBnbWFpbC5jb20iLCJ1c2VyIjp0cnVlLCJleHAiOjE2NTM1NDgyNDcsImlhdCI6MTY1MzM3NTQ0NywiaXNzIjoiU2VsZXN0YSJ9.2TSqH18e0wF-x_r1lziWECfaQWGa62MblOG9nFiBUVE" --request "POST" --data '{"UserFrom": 1, "UserTo": 3, "Message": "Big black Bug"}'
+curl http://localhost:8080/messages/create --include --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZXZzaGFyb25vdkBnbWFpbC5jb20iLCJ1c2VyIjp0cnVlLCJleHAiOjE2NTM1NDgyNDcsImlhdCI6MTY1MzM3NTQ0NywiaXNzIjoiU2VsZXN0YSJ9.2TSqH18e0wF-x_r1lziWECfaQWGa62MblOG9nFiBUVE" --request "POST" --data '{"UserFrom": 3, "UserTo": 2, "Message": "Lets go mess around"}'
 
 How to check --data consistency to DB table structure

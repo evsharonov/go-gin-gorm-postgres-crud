@@ -10,7 +10,7 @@ import (
 
 const projectDirName = "go-gin-gorm-postgres-crud"
 
-type DBConfig struct {
+type DSLConfig struct {
 	Connection string
 	Host       string
 	Port       string
@@ -21,8 +21,18 @@ type DBConfig struct {
 	Sslmode    string
 }
 
-type Config struct {
-	DB *DBConfig
+type DatabaseConfig struct {
+	DB *DSLConfig
+}
+
+//Auth0.com implementation
+type Auth0APIConfig struct {
+	Domain   string
+	Audience string
+}
+
+type Auth0Config struct {
+	Auth *Auth0APIConfig
 }
 
 func loadEnv() {
@@ -37,7 +47,21 @@ func loadEnv() {
 	}
 }
 
-func GetConfig() *Config {
+func GetAuth0Config() *Auth0Config {
+	loadEnv()
+
+	Domain := os.Getenv("AUTH0_DOMAIN")
+	Audience := os.Getenv("AUTH0_AUDIENCE")
+
+	return &Auth0Config{
+		&Auth0APIConfig{
+			Domain:   Domain,
+			Audience: Audience,
+		},
+	}
+}
+
+func GetDBConfig() *DatabaseConfig {
 	loadEnv()
 
 	dbConnection := os.Getenv("DB_CONNECTION")
@@ -49,8 +73,8 @@ func GetConfig() *Config {
 	dbCharset := os.Getenv("DB_CHARSET")
 	dbSslmode := os.Getenv("DB_SSLMODE")
 
-	return &Config{
-		DB: &DBConfig{
+	return &DatabaseConfig{
+		DB: &DSLConfig{
 			Connection: dbConnection,
 			Host:       dbHost,
 			Port:       dbPort,

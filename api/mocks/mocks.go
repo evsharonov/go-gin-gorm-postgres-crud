@@ -3,7 +3,7 @@ package mocks
 import (
 	"time"
 
-	"github.com/evsharonov/go-gin-gorm-crud/pkg/models"
+	"github.com/evsharonov/go-gin-gorm-crud/api/models"
 )
 
 var Users = []models.User{

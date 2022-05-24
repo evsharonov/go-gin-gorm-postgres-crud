@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/evsharonov/go-gin-gorm-crud/pkg/models"
+	"github.com/evsharonov/go-gin-gorm-crud/api/models"
 	"github.com/gin-gonic/gin"
 )
 
